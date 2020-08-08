@@ -44,7 +44,7 @@ const Tab1: React.FC = () => {
                 </IonItem>
                 <IonItemOptions side="start">
                     <IonItemOption>
-                      Chat
+                      Remove
                     </IonItemOption>
                 </IonItemOptions>
             </IonItemSliding>
