@@ -10,7 +10,7 @@ import {
   IonTabs
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { ellipse, square, triangle, calendar, ellipsisHorizontal, chatbubbleEllipsesOutline, settingsOutline, starOutline } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -33,6 +33,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { settings } from 'cluster';
 
 const App: React.FC = () => (
   <IonApp>
@@ -46,15 +47,15 @@ const App: React.FC = () => (
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={triangle} />
+            <IonIcon icon={starOutline} />
             <IonLabel>Tab 1</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={ellipse} />
+            <IonIcon icon={chatbubbleEllipsesOutline} />
             <IonLabel>Tab 2</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
+            <IonIcon icon={settingsOutline} />
             <IonLabel>Tab 3</IonLabel>
           </IonTabButton>
         </IonTabBar>
