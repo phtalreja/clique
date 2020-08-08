@@ -48,15 +48,15 @@ const App: React.FC = () => (
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
             <IonIcon icon={starOutline} />
-            <IonLabel>Tab 1</IonLabel>
+            <IonLabel></IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
             <IonIcon icon={chatbubbleEllipsesOutline} />
-            <IonLabel>Tab 2</IonLabel>
+            <IonLabel></IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={settingsOutline} />
-            <IonLabel>Tab 3</IonLabel>
+            <IonLabel></IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
