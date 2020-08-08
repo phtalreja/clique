@@ -1,0 +1,7 @@
+{
+  "name": "FriendMatch",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
