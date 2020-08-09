@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonLabel, IonList
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab3.css';
 import { chevronForwardOutline, arrowBackOutline } from 'ionicons/icons';
+
 const arr = [
   {
     name: 'Hoang',
@@ -14,7 +15,10 @@ const arr = [
   }
 ]
 const Tab3: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showIdentityModal, setShowIdentityModal] = useState(false);
+  const [showFriendPrefModal, setShowFriendPrefModal] = useState(false);
+  const [showActivityModal, setShowActivityModal] = useState(false);
+  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
   return (
     
       <IonPage>
@@ -42,7 +46,7 @@ const Tab3: React.FC = () => {
                     <IonLabel>
                         My gender is {elem.gender}
                     </IonLabel>
-                    <IonButton color="clear" onClick={() => setShowModal(true)}>
+                    <IonButton color="clear" onClick={() => {console.log("hi"); setShowIdentityModal(true);}}>
                       <IonIcon icon={chevronForwardOutline} />
                     </IonButton>
                   </IonItem>
@@ -50,7 +54,7 @@ const Tab3: React.FC = () => {
                     <IonLabel>
                         I'm looking for a friend that's preferably {elem.friend_gender}
                     </IonLabel>
-                    <IonButton color="clear" onClick={() => setShowModal(true)}>
+                    <IonButton color="clear" onClick={() => setShowFriendPrefModal(true)}>
                       <IonIcon icon={chevronForwardOutline} />
                     </IonButton>
                   </IonItem>
@@ -58,7 +62,7 @@ const Tab3: React.FC = () => {
                     <IonLabel>
                         I am interested in {elem.interest}
                     </IonLabel>
-                    <IonButton color="clear" onClick={() => setShowModal(true)}>
+                    <IonButton color="clear" onClick={() => setShowActivityModal(true)}>
                       <IonIcon icon={chevronForwardOutline} />
                     </IonButton>
                   </IonItem>
@@ -66,7 +70,7 @@ const Tab3: React.FC = () => {
                     <IonLabel>
                         I'm available {elem.available}
                     </IonLabel>
-                    <IonButton color="clear" onClick={() => setShowModal(true)}>
+                    <IonButton color="clear" onClick={() => setShowAvailabilityModal(true)}>
                       <IonIcon icon={chevronForwardOutline} />
                     </IonButton>
                   </IonItem>
@@ -77,11 +81,11 @@ const Tab3: React.FC = () => {
           
           
           
-            <IonModal isOpen={showModal} cssClass='my-custom-class'>
+            <IonModal isOpen={showIdentityModal} cssClass='my-custom-class'>
                 <IonHeader>
                   <IonToolbar>
                     <IonTitle>settings</IonTitle>
-                      <IonButton color="clear" onClick={() => setShowModal(false)}>
+                      <IonButton color="clear" onClick={() => setShowIdentityModal(false)}>
                         <IonIcon icon={arrowBackOutline} />
                     </IonButton>
                   </IonToolbar>
@@ -98,11 +102,11 @@ const Tab3: React.FC = () => {
               <IonButton expand="block">change</IonButton>
           </IonModal>
 
-          <IonModal isOpen={showModal} cssClass='my-custom-class'>
+          <IonModal isOpen={showFriendPrefModal} cssClass='my-custom-class'>
                 <IonHeader>
                   <IonToolbar>
                     <IonTitle>settings</IonTitle>
-                      <IonButton color="clear" onClick={() => setShowModal(false)}>
+                      <IonButton color="clear" onClick={() => setShowFriendPrefModal(false)}>
                         <IonIcon icon={arrowBackOutline} />
                     </IonButton>
                   </IonToolbar>
@@ -118,12 +122,11 @@ const Tab3: React.FC = () => {
               </IonContent>
               <IonButton expand="block">change</IonButton>
           </IonModal>
-
-          <IonModal isOpen={showModal} cssClass='my-custom-class'>
+          <IonModal isOpen={showActivityModal} cssClass='my-custom-class'>
                 <IonHeader>
                   <IonToolbar>
                     <IonTitle>settings</IonTitle>
-                      <IonButton color="clear" onClick={() => setShowModal(false)}>
+                      <IonButton color="clear" onClick={() => setShowActivityModal(false)}>
                         <IonIcon icon={arrowBackOutline} />
                     </IonButton>
                   </IonToolbar>
@@ -140,11 +143,11 @@ const Tab3: React.FC = () => {
               <IonButton expand="block">change</IonButton>
           </IonModal>
 
-          <IonModal isOpen={showModal} cssClass='my-custom-class'>
+          <IonModal isOpen={showAvailabilityModal} cssClass='my-custom-class'>
                 <IonHeader>
                   <IonToolbar>
                     <IonTitle>settings</IonTitle>
-                      <IonButton color="clear" onClick={() => setShowModal(false)}>
+                      <IonButton color="clear" onClick={() => setShowAvailabilityModal(false)}>
                         <IonIcon icon={arrowBackOutline} />
                     </IonButton>
                   </IonToolbar>
