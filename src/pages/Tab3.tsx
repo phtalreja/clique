@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonLabel, IonList, IonItem, IonAvatar, IonCol, IonRow, IonModal, IonButton, IonIcon } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonLabel, IonList, IonItem, IonAvatar, IonCol, IonRow, IonModal, IonButton, IonIcon, IonDatetime, IonFooter } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab3.css';
 import { chevronForwardOutline, arrowBackOutline } from 'ionicons/icons';
+
+const customYearValues = [2020];
 
 const arr = [
   {
@@ -99,7 +101,7 @@ const Tab3: React.FC = () => {
                 <IonButton expand="block" fill="outline">other/nonbinary</IonButton>
                 <IonButton expand="block" fill="outline">prefer not to say</IonButton>
               </IonContent>
-              <IonButton expand="block">change</IonButton>
+              <IonButton expand="block" onClick={() => setShowIdentityModal(false)}>change</IonButton>
           </IonModal>
 
           <IonModal isOpen={showFriendPrefModal} cssClass='my-custom-class'>
@@ -120,7 +122,7 @@ const Tab3: React.FC = () => {
                 <IonButton expand="block" fill="outline">other/nonbinary</IonButton>
                 <IonButton expand="block" fill="outline">no preference</IonButton>
               </IonContent>
-              <IonButton expand="block">change</IonButton>
+              <IonButton expand="block" onClick={() => setShowFriendPrefModal(false)} >change</IonButton>
           </IonModal>
           <IonModal isOpen={showActivityModal} cssClass='my-custom-class'>
                 <IonHeader>
@@ -140,7 +142,7 @@ const Tab3: React.FC = () => {
                 <IonButton expand="block" fill="outline">exercising</IonButton>
                 <IonButton expand="block" fill="outline">netflix n' chill</IonButton>
               </IonContent>
-              <IonButton expand="block">change</IonButton>
+              <IonButton expand="block" onClick={() => setShowActivityModal(false)}>change</IonButton>
           </IonModal>
 
           <IonModal isOpen={showAvailabilityModal} cssClass='my-custom-class'>
@@ -158,7 +160,7 @@ const Tab3: React.FC = () => {
                 </h3>
                 
               </IonContent>
-              <IonButton expand="block">change</IonButton>
+              <IonButton expand="block" onClick={() => setShowAvailabilityModal(false)}>change</IonButton>
           </IonModal>
 
 
@@ -167,6 +169,6 @@ const Tab3: React.FC = () => {
       </IonPage>
       
   );
-  
 };
+
 export default Tab3;
