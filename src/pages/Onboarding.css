@@ -67,3 +67,46 @@
   font-size: 8pt;
   color: #ffffff;
 }
+
+ion-slides {
+  height: 100vh;
+}
+
+.swiper-pagination {
+  bottom: 93% !important;
+}
+
+.header {
+  width: 100%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  /* identical to box height */
+
+  color: #f6c545;
+}
+.rounded-input {
+  border-radius: 15px;
+}
+
+.slide-content {
+  position: absolute;
+  top: 11%;
+  width: 90%;
+  max-width: 500px;
+}
+
+.sub-header {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+
+  color: #c4c4c4;
+}
+
+.spacer {
+  height: 100%;
+}
