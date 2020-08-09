@@ -6,6 +6,16 @@ import { chevronForwardOutline, arrowBackOutline } from 'ionicons/icons';
 
 const customYearValues = [2020];
 
+const customDayShortNames = [
+  's\u00f8n',
+  'man',
+  'tir',
+  'ons',
+  'tor',
+  'fre',
+  'l\u00f8r'
+];
+
 const arr = [
   {
     name: 'Hoang',
@@ -21,6 +31,7 @@ const Tab3: React.FC = () => {
   const [showFriendPrefModal, setShowFriendPrefModal] = useState(false);
   const [showActivityModal, setShowActivityModal] = useState(false);
   const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string>('2020-08-15T09:00:20.789');
   return (
     
       <IonPage>
@@ -158,7 +169,22 @@ const Tab3: React.FC = () => {
                 <h3 className="ion-text-center">
                   I'm free to meet up on ...
                 </h3>
-                
+
+                  <IonItem>
+                    <IonLabel>date</IonLabel>
+                    <IonDatetime displayFormat="MM DD YY" placeholder="Select Date" value={selectedDate} onIonChange={e => setSelectedDate(e.detail.value!)}></IonDatetime>
+                  </IonItem>
+
+                  <IonItem>
+                    <IonLabel>start time</IonLabel>
+                    <IonDatetime displayFormat="h:mm a" value={selectedDate} onIonChange={e => setSelectedDate(e.detail.value!)}></IonDatetime>
+                  </IonItem>
+
+                  <IonItem>
+                    <IonLabel>end time</IonLabel>
+                    <IonDatetime displayFormat="h:mm a" value={selectedDate} onIonChange={e => setSelectedDate(e.detail.value!)}></IonDatetime>
+                  </IonItem>
+
               </IonContent>
               <IonButton expand="block" onClick={() => setShowAvailabilityModal(false)}>change</IonButton>
           </IonModal>
