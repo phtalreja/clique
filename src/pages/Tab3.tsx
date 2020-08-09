@@ -92,11 +92,74 @@ const Tab3: React.FC = () => {
                 </h3>
                 <IonButton expand="block" fill="outline">female</IonButton>
                 <IonButton expand="block" fill="outline">male</IonButton>
-                <IonButton expand="block" fill="outline">other</IonButton>
+                <IonButton expand="block" fill="outline">other/nonbinary</IonButton>
                 <IonButton expand="block" fill="outline">prefer not to say</IonButton>
               </IonContent>
               <IonButton expand="block">change</IonButton>
           </IonModal>
+
+          <IonModal isOpen={showModal} cssClass='my-custom-class'>
+                <IonHeader>
+                  <IonToolbar>
+                    <IonTitle>settings</IonTitle>
+                      <IonButton color="clear" onClick={() => setShowModal(false)}>
+                        <IonIcon icon={arrowBackOutline} />
+                    </IonButton>
+                  </IonToolbar>
+              </IonHeader>
+              <IonContent className="ion-padding">
+                <h3 className="ion-text-center">
+                  I'm looking for a friend that's preferably ...
+                </h3>
+                <IonButton expand="block" fill="outline">female</IonButton>
+                <IonButton expand="block" fill="outline">male</IonButton>
+                <IonButton expand="block" fill="outline">other/nonbinary</IonButton>
+                <IonButton expand="block" fill="outline">no preference</IonButton>
+              </IonContent>
+              <IonButton expand="block">change</IonButton>
+          </IonModal>
+
+          <IonModal isOpen={showModal} cssClass='my-custom-class'>
+                <IonHeader>
+                  <IonToolbar>
+                    <IonTitle>settings</IonTitle>
+                      <IonButton color="clear" onClick={() => setShowModal(false)}>
+                        <IonIcon icon={arrowBackOutline} />
+                    </IonButton>
+                  </IonToolbar>
+              </IonHeader>
+              <IonContent className="ion-padding">
+                <h3 className="ion-text-center">
+                  the activity I'm interested in is ...
+                </h3>
+                <IonButton expand="block" fill="outline">coding</IonButton>
+                <IonButton expand="block" fill="outline">cooking</IonButton>
+                <IonButton expand="block" fill="outline">exercising</IonButton>
+                <IonButton expand="block" fill="outline">netflix n' chill</IonButton>
+              </IonContent>
+              <IonButton expand="block">change</IonButton>
+          </IonModal>
+
+          <IonModal isOpen={showModal} cssClass='my-custom-class'>
+                <IonHeader>
+                  <IonToolbar>
+                    <IonTitle>settings</IonTitle>
+                      <IonButton color="clear" onClick={() => setShowModal(false)}>
+                        <IonIcon icon={arrowBackOutline} />
+                    </IonButton>
+                  </IonToolbar>
+              </IonHeader>
+              <IonContent className="ion-padding">
+                <h3 className="ion-text-center">
+                  I'm free to meet up on ...
+                </h3>
+                
+              </IonContent>
+              <IonButton expand="block">change</IonButton>
+          </IonModal>
+
+
+
         </IonContent>
       </IonPage>
       
