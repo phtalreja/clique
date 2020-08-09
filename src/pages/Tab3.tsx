@@ -30,7 +30,7 @@ const Tab3: React.FC = () => {
                     <img src="https://ca.slack-edge.com/T0171J44GNS-U0187P2F5T4-b1fd59458e4a-512" />
                   </IonAvatar>
                   <IonLabel>
-                      <h2 className="ion-text-center">Hoang</h2>
+                      <h1 className="ion-text-center ion-padding">Hoang</h1>
                   </IonLabel>
         
           <IonList className="ion-padding">
