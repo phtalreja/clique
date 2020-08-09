@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
@@ -47,38 +47,46 @@ import { settings } from "cluster";
 /* Firebase import */
 import Firebase from "./config/Firebase";
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route path="/tab1" component={Tab1} exact={true} />
-          <Route path="/tab2" component={Tab2} exact={true} />
-          <Route path="/tab3" component={Tab3} />
-          <Route path="/onboarding" component={Onboarding} />
-          <Route
-            path="/"
-            render={() => <Redirect to="/onboarding" />}
-            exact={true}
-          />
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={starOutline} />
-            <IonLabel></IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={chatbubbleEllipsesOutline} />
-            <IonLabel></IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={settingsOutline} />
-            <IonLabel></IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  /** Using user emails as IDs  */
+  const [user, setUser] = useState("");
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route path="/tab1" exact={true}>
+              <Tab1 user={user} />
+            </Route>
+            <Route path="/tab2" component={Tab2} exact={true} />
+            <Route path="/tab3" component={Tab3} />
+            <Route path="/onboarding">
+              <Onboarding user={user} setUser={setUser}></Onboarding>
+            </Route>
+            <Route
+              path="/"
+              render={() => <Redirect to={user ? "/tab1" : "/onboarding"} />}
+              exact={true}
+            />
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="tab1" href="/tab1">
+              <IonIcon icon={starOutline} />
+              <IonLabel></IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab2" href="/tab2">
+              <IonIcon icon={chatbubbleEllipsesOutline} />
+              <IonLabel></IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab3" href="/tab3">
+              <IonIcon icon={settingsOutline} />
+              <IonLabel></IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

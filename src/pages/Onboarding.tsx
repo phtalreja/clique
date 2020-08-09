@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { Redirect } from "react-router-dom";
 import {
   IonContent,
   IonHeader,
@@ -24,60 +25,29 @@ import "./Onboarding.css";
 import Firebase from "../config/Firebase";
 import { start } from "repl";
 
-const Onboarding: React.FC = () => {
+export interface OnboardingInterface {
+  user: string;
+  setUser: (user: string) => void;
+}
+const Onboarding: React.FC<OnboardingInterface> = ({ user, setUser }) => {
   /** Whether we should show the onboarding slides.  */
   const [showSlides, setShowSlides] = useState(false);
-  const [email, setEmail] = useState("");
 
   /** If user presses the button to log in with a .edu email.  */
   const handleEduLogin = () => {
     setShowSlides(true);
   };
 
-  // const login = (e: Event) => {
-  const login = () => {
-    // e.preventDefault();
-    console.log("HELLO");
-    Firebase.auth()
-      .signInWithEmailAndPassword("test@example.edu", "123456")
-      .then((u) => {
-        console.log("Login successful");
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        if (errorCode === "auth/wrong-password") {
-          alert("Wrong password.");
-        } else {
-          alert(errorMessage);
-        }
-        console.log(error);
-      });
-  };
-
-  const signup = (e: Event) => {
-    e.preventDefault();
-    Firebase.auth()
-      .createUserWithEmailAndPassword(email, "123456")
-      .then((u) => {})
-      .then((u) => {
-        console.log(u);
-      })
-      .catch((error) => {
-        var errorMessage = error.message;
-        alert(errorMessage);
-        console.log(error);
-      });
-  };
-
   return (
     <IonPage>
       <IonContent>
-        {!showSlides && <Landing onEduLogin={handleEduLogin}></Landing>}
+        {!showSlides && (
+          <Landing user={user} onEduLogin={handleEduLogin}></Landing>
+        )}
         {showSlides && (
           <OnboardingSlides
-            email={email}
-            setEmail={setEmail}
+            email={user}
+            setEmail={setUser}
             setShowSlides={setShowSlides}
           ></OnboardingSlides>
         )}
@@ -93,11 +63,16 @@ const slideOpts = {
 };
 
 export interface LandingProps {
+  user: string;
   onEduLogin: () => void;
 }
 
 /** First landing page with options to log in. Has "clique" and cool humans pic.  */
-const Landing: React.FC<LandingProps> = ({ onEduLogin }) => {
+const Landing: React.FC<LandingProps> = ({ user, onEduLogin }) => {
+  if (user) {
+    return <Redirect to="/tab1" />;
+  }
+
   return (
     <div className="onboardingContainer">
       <div className="onboardingContent">
@@ -150,6 +125,67 @@ const OnboardingSlides: React.FC<OnboardingProps> = ({
   const handleFinish = () => {
     console.log("done!");
     setShowSlides(false);
+    console.log(name, gender, preference, activity, startDate, endDate);
+    signup();
+    addUser();
+  };
+
+  // const login = (e: Event) => {
+  const login = () => {
+    console.log("HELLO");
+    Firebase.auth()
+      .signInWithEmailAndPassword("test@example.edu", "123456")
+      .then((u) => {
+        console.log("Login successful");
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode === "auth/wrong-password") {
+          alert("Wrong password.");
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
+  };
+
+  /** Sign up to Firebase auth */
+  const signup = () => {
+    Firebase.auth()
+      .createUserWithEmailAndPassword(email, "123456")
+      .then((u) => {})
+      .then((u) => {
+        console.log("Successfully created user!");
+      })
+      .catch((error) => {
+        var errorMessage = error.message;
+        alert(errorMessage);
+        console.log(error);
+      });
+  };
+
+  /** Store user details */
+
+  const addUser = () => {
+    let userDB = Firebase.firestore().collection("users");
+    userDB
+      .doc(email)
+      .set({
+        name: name,
+        email: email,
+        gender: gender,
+        preference: preference,
+        activity: activity,
+        startDate: startDate,
+        endDate: endDate,
+      })
+      .then(function () {
+        console.log("User successfully stored.");
+      })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
   };
 
   const nextSlide = () => {
