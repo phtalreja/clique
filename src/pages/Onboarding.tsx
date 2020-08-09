@@ -78,6 +78,7 @@ const Onboarding: React.FC = () => {
           <OnboardingSlides
             email={email}
             setEmail={setEmail}
+            setShowSlides={setShowSlides}
           ></OnboardingSlides>
         )}
       </IonContent>
@@ -129,9 +130,14 @@ const Landing: React.FC<LandingProps> = ({ onEduLogin }) => {
 export interface OnboardingProps {
   email: string;
   setEmail: (email: string) => void;
+  setShowSlides: (showSlides: boolean) => void;
 }
 
-const OnboardingSlides: React.FC<OnboardingProps> = ({ email, setEmail }) => {
+const OnboardingSlides: React.FC<OnboardingProps> = ({
+  email,
+  setEmail,
+  setShowSlides,
+}) => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [preference, setPreference] = useState("");
@@ -143,6 +149,7 @@ const OnboardingSlides: React.FC<OnboardingProps> = ({ email, setEmail }) => {
 
   const handleFinish = () => {
     console.log("done!");
+    setShowSlides(false);
   };
 
   const nextSlide = () => {
@@ -177,7 +184,7 @@ const OnboardingSlides: React.FC<OnboardingProps> = ({ email, setEmail }) => {
         setEndDate={setEndDate}
         nextSlide={nextSlide}
       ></AvailabilitySlide>
-      <FinalSlide onFinish={handleFinish} nextSlide={nextSlide}></FinalSlide>
+      <FinalSlide onFinish={handleFinish}></FinalSlide>
     </IonSlides>
   );
 };
@@ -410,6 +417,7 @@ const ActivitySlide: React.FC<ActivitySlideInterface> = ({
             shape="round"
             color="primary"
             className="continue button-bottom"
+            onClick={nextSlide}
           >
             continue
           </IonButton>
@@ -472,6 +480,7 @@ const AvailabilitySlide: React.FC<AvailabilitySlideInterface> = ({
             shape="round"
             color="primary"
             className="continue button-bottom"
+            onClick={nextSlide}
           >
             continue
           </IonButton>
@@ -483,9 +492,8 @@ const AvailabilitySlide: React.FC<AvailabilitySlideInterface> = ({
 
 export interface FinalSlideInterface {
   onFinish: () => void;
-  nextSlide: () => void;
 }
-const FinalSlide: React.FC<FinalSlideInterface> = ({ onFinish, nextSlide }) => {
+const FinalSlide: React.FC<FinalSlideInterface> = ({ onFinish }) => {
   return (
     <IonSlide>
       <div className="slide-content">
