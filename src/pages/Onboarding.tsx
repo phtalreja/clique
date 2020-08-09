@@ -82,9 +82,9 @@ const Landing: React.FC<LandingProps> = ({ user, onEduLogin }) => {
         </div>
 
         <img className="center" src="../assets/humaaans.png" />
-        {/* <IonButton shape="round" color="light" className="continue google">
+        <IonButton shape="round" color="light" className="continue google">
           continue with google
-        </IonButton> */}
+        </IonButton>
         <br />
         <IonButton
           shape="round"
