@@ -90,7 +90,12 @@ const Tab3: React.FC = () => {
                 <h3 className="ion-text-center">
                   I identify as ...
                 </h3>
+                <IonButton expand="block" fill="outline">female</IonButton>
+                <IonButton expand="block" fill="outline">male</IonButton>
+                <IonButton expand="block" fill="outline">other</IonButton>
+                <IonButton expand="block" fill="outline">prefer not to say</IonButton>
               </IonContent>
+              <IonButton expand="block">change</IonButton>
           </IonModal>
         </IonContent>
       </IonPage>
