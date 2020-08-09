@@ -50,7 +50,7 @@ const Tab3: React.FC = () => {
                     <IonLabel>
                         I'm looking for a friend that's preferably {elem.friend_gender}
                     </IonLabel>
-                    <IonButton color="clear">
+                    <IonButton color="clear" onClick={() => setShowModal(true)}>
                       <IonIcon icon={chevronForwardOutline} />
                     </IonButton>
                   </IonItem>
@@ -58,7 +58,7 @@ const Tab3: React.FC = () => {
                     <IonLabel>
                         I am interested in {elem.interest}
                     </IonLabel>
-                    <IonButton color="clear">
+                    <IonButton color="clear" onClick={() => setShowModal(true)}>
                       <IonIcon icon={chevronForwardOutline} />
                     </IonButton>
                   </IonItem>
@@ -66,7 +66,7 @@ const Tab3: React.FC = () => {
                     <IonLabel>
                         I'm available {elem.available}
                     </IonLabel>
-                    <IonButton color="clear">
+                    <IonButton color="clear" onClick={() => setShowModal(true)}>
                       <IonIcon icon={chevronForwardOutline} />
                     </IonButton>
                   </IonItem>
