@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   IonContent,
   IonHeader,
@@ -21,38 +21,88 @@ import {
   IonDatetime,
 } from "@ionic/react";
 import "./Onboarding.css";
+import Firebase from "../config/Firebase";
+import { start } from "repl";
 
 const Onboarding: React.FC = () => {
+  /** Whether we should show the onboarding slides.  */
   const [showSlides, setShowSlides] = useState(false);
+  const [email, setEmail] = useState("");
 
+  /** If user presses the button to log in with a .edu email.  */
   const handleEduLogin = () => {
     setShowSlides(true);
   };
+
+  // const login = (e: Event) => {
+  const login = () => {
+    // e.preventDefault();
+    console.log("HELLO");
+    Firebase.auth()
+      .signInWithEmailAndPassword("test@example.edu", "123456")
+      .then((u) => {
+        console.log("Login successful");
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode === "auth/wrong-password") {
+          alert("Wrong password.");
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
+  };
+
+  const signup = (e: Event) => {
+    e.preventDefault();
+    Firebase.auth()
+      .createUserWithEmailAndPassword(email, "123456")
+      .then((u) => {})
+      .then((u) => {
+        console.log(u);
+      })
+      .catch((error) => {
+        var errorMessage = error.message;
+        alert(errorMessage);
+        console.log(error);
+      });
+  };
+
   return (
     <IonPage>
       <IonContent>
         {!showSlides && <Landing onEduLogin={handleEduLogin}></Landing>}
-        {showSlides && <OnboardingSlides></OnboardingSlides>}
+        {showSlides && (
+          <OnboardingSlides
+            email={email}
+            setEmail={setEmail}
+          ></OnboardingSlides>
+        )}
       </IonContent>
     </IonPage>
   );
 };
 
+/** Slide options for IonSlides.  */
 const slideOpts = {
   initialSlide: 0,
   speed: 400,
 };
 
-export interface Props {
+export interface LandingProps {
   onEduLogin: () => void;
 }
-const Landing: React.FC<Props> = ({ onEduLogin }) => {
+
+/** First landing page with options to log in. Has "clique" and cool humans pic.  */
+const Landing: React.FC<LandingProps> = ({ onEduLogin }) => {
   return (
     <div className="onboardingContainer">
       <div className="onboardingContent">
         <div className="ion-text-center">
           <h1 className="title">clique</h1>
-          <h2 className="description">let's find yours</h2>
+          <h2 className="description">let's find yours.</h2>
         </div>
 
         <img className="center" src="../assets/humaaans.png" />
@@ -75,36 +125,94 @@ const Landing: React.FC<Props> = ({ onEduLogin }) => {
     </div>
   );
 };
-const OnboardingSlides: React.FC = () => {
+
+export interface OnboardingProps {
+  email: string;
+  setEmail: (email: string) => void;
+}
+
+const OnboardingSlides: React.FC<OnboardingProps> = ({ email, setEmail }) => {
+  const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
+  const [preference, setPreference] = useState("");
+  const [activity, setActivity] = useState("");
+  const [startDate, setStartDate] = useState<string>("2020-08-15T09:00:20.789");
+  const [endDate, setEndDate] = useState<string>("2020-08-15T012:00:20.789");
+
+  const slides = useRef(document.createElement("ion-slides"));
+
+  const handleFinish = () => {
+    console.log("done!");
+  };
+
+  const nextSlide = () => {
+    slides.current.slideNext();
+  };
+
   return (
-    <IonSlides pager={true} options={slideOpts}>
-      <EmailSlide></EmailSlide>
-      <DetailsSlide></DetailsSlide>
-      <PrefSlide></PrefSlide>
-      <ActivitySlide></ActivitySlide>
-      <AvailabilitySlide></AvailabilitySlide>
-      <FinalSlide></FinalSlide>
+    <IonSlides pager={true} options={slideOpts} ref={slides}>
+      <EmailSlide
+        email={email}
+        setEmail={setEmail}
+        nextSlide={nextSlide}
+      ></EmailSlide>
+      <DetailsSlide
+        name={name}
+        setName={setName}
+        setGender={setGender}
+        nextSlide={nextSlide}
+      ></DetailsSlide>
+      <PrefSlide
+        setPreference={setPreference}
+        nextSlide={nextSlide}
+      ></PrefSlide>
+      <ActivitySlide
+        setActivity={setActivity}
+        nextSlide={nextSlide}
+      ></ActivitySlide>
+      <AvailabilitySlide
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        nextSlide={nextSlide}
+      ></AvailabilitySlide>
+      <FinalSlide onFinish={handleFinish} nextSlide={nextSlide}></FinalSlide>
     </IonSlides>
   );
 };
 
-const EmailSlide: React.FC = () => {
-  const [text, setText] = useState<string>();
+export interface EmailSlideProps {
+  email: string;
+  setEmail: (email: string) => void;
+  nextSlide: () => void;
+}
+
+const EmailSlide: React.FC<EmailSlideProps> = ({
+  email,
+  setEmail,
+  nextSlide,
+}) => {
   return (
     <IonSlide>
       <div className="slide-content">
         <h1 className="header">sign up with your email</h1>
         <IonItem>
           <IonInput
-            value={text}
+            value={email}
             className="rounded-input"
             placeholder="Enter Input"
-            onIonChange={(e) => setText(e.detail.value!)}
+            onIonChange={(e) => setEmail(e.detail.value!)}
             clearInput
           ></IonInput>
         </IonItem>
         <div className="ion-padding">
-          <IonButton shape="round" color="primary" className="continue">
+          <IonButton
+            shape="round"
+            color="primary"
+            className="continue"
+            onClick={() => nextSlide()}
+          >
             continue
           </IonButton>
         </div>
@@ -113,8 +221,19 @@ const EmailSlide: React.FC = () => {
   );
 };
 
-const DetailsSlide: React.FC = () => {
-  const [text, setText] = useState<string>();
+export interface DetailsSlideInterface {
+  name: string;
+  setName: (name: string) => void;
+  setGender: (gender: string) => void;
+  nextSlide: () => void;
+}
+
+const DetailsSlide: React.FC<DetailsSlideInterface> = ({
+  name,
+  setName,
+  setGender,
+  nextSlide,
+}) => {
   return (
     <IonSlide>
       <div className="slide-content">
@@ -125,26 +244,42 @@ const DetailsSlide: React.FC = () => {
         <p className="sub-header ion-text-left">my name is...</p>
         <IonItem>
           <IonInput
-            value={text}
+            value={name}
             className="rounded-input"
             placeholder="enter first name"
-            onIonChange={(e) => setText(e.detail.value!)}
+            onIonChange={(e) => setName(e.detail.value!)}
             clearInput
           ></IonInput>
         </IonItem>
         <p className="sub-header ion-padding-top ion-text-left">
           i identify as a...
         </p>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={(e) => setGender("female")}
+        >
           female
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={(e) => setGender("male")}
+        >
           male
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={(e) => setGender("other/non-binary")}
+        >
           other/nonbinary
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={(e) => setGender("no preference")}
+        >
           no preference
         </IonButton>
         <div className="ion-padding">
@@ -152,6 +287,7 @@ const DetailsSlide: React.FC = () => {
             shape="round"
             color="primary"
             className="continue button-bottom"
+            onClick={() => nextSlide()}
           >
             continue
           </IonButton>
@@ -161,7 +297,14 @@ const DetailsSlide: React.FC = () => {
   );
 };
 
-const PrefSlide: React.FC = () => {
+export interface PrefSlideInterface {
+  setPreference: (preference: string) => void;
+  nextSlide: () => void;
+}
+const PrefSlide: React.FC<PrefSlideInterface> = ({
+  setPreference,
+  nextSlide,
+}) => {
   const [text, setText] = useState<string>();
   return (
     <IonSlide>
@@ -172,16 +315,32 @@ const PrefSlide: React.FC = () => {
         <h5 className="sub-header ion-margin-bottom">
           please select one choice.
         </h5>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={() => setPreference("female")}
+        >
           female
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={() => setPreference("male")}
+        >
           male
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={() => setPreference("other/non-binary")}
+        >
           other/nonbinary
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={() => setPreference("no preference")}
+        >
           no preference
         </IonButton>
         <div className="ion-padding">
@@ -189,6 +348,7 @@ const PrefSlide: React.FC = () => {
             shape="round"
             color="primary"
             className="continue button-bottom"
+            onClick={() => nextSlide()}
           >
             continue
           </IonButton>
@@ -198,7 +358,14 @@ const PrefSlide: React.FC = () => {
   );
 };
 
-const ActivitySlide: React.FC = () => {
+export interface ActivitySlideInterface {
+  setActivity: (activity: string) => void;
+  nextSlide: () => void;
+}
+const ActivitySlide: React.FC<ActivitySlideInterface> = ({
+  setActivity,
+  nextSlide,
+}) => {
   const [text, setText] = useState<string>();
   return (
     <IonSlide>
@@ -210,16 +377,32 @@ const ActivitySlide: React.FC = () => {
           don’t worry - this is all virtual so we will all be social distancing
           😉
         </h5>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={() => setActivity("coding")}
+        >
           coding
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={() => setActivity("cooking")}
+        >
           cooking
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={() => setActivity("exercising")}
+        >
           exercising
         </IonButton>
-        <IonButton expand="block" fill="outline">
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={() => setActivity("netflix n' chill")}
+        >
           netflix n' chill
         </IonButton>
         <div className="ion-padding">
@@ -236,11 +419,21 @@ const ActivitySlide: React.FC = () => {
   );
 };
 
-const AvailabilitySlide: React.FC = () => {
-  const [text, setText] = useState<string>();
-  const [selectedDate, setSelectedDate] = useState<string>(
-    "2020-08-15T09:00:20.789"
-  );
+export interface AvailabilitySlideInterface {
+  startDate: string;
+  setStartDate: (startDate: string) => void;
+  endDate: string;
+  setEndDate: (endDate: string) => void;
+  nextSlide: () => void;
+}
+
+const AvailabilitySlide: React.FC<AvailabilitySlideInterface> = ({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  nextSlide,
+}) => {
   return (
     <IonSlide>
       <div className="slide-content">
@@ -252,8 +445,8 @@ const AvailabilitySlide: React.FC = () => {
           <IonDatetime
             displayFormat="MM DD YY"
             placeholder="Select Date"
-            value={selectedDate}
-            onIonChange={(e) => setSelectedDate(e.detail.value!)}
+            value={startDate}
+            onIonChange={(e) => setStartDate(e.detail.value!)}
           ></IonDatetime>
         </IonItem>
 
@@ -261,8 +454,8 @@ const AvailabilitySlide: React.FC = () => {
           <IonLabel>start time</IonLabel>
           <IonDatetime
             displayFormat="h:mm a"
-            value={selectedDate}
-            onIonChange={(e) => setSelectedDate(e.detail.value!)}
+            value={startDate}
+            onIonChange={(e) => setStartDate(e.detail.value!)}
           ></IonDatetime>
         </IonItem>
 
@@ -270,8 +463,8 @@ const AvailabilitySlide: React.FC = () => {
           <IonLabel>end time</IonLabel>
           <IonDatetime
             displayFormat="h:mm a"
-            value={selectedDate}
-            onIonChange={(e) => setSelectedDate(e.detail.value!)}
+            value={endDate}
+            onIonChange={(e) => setEndDate(e.detail.value!)}
           ></IonDatetime>
         </IonItem>
         <div className="ion-padding">
@@ -288,8 +481,11 @@ const AvailabilitySlide: React.FC = () => {
   );
 };
 
-const FinalSlide: React.FC = () => {
-  const [text, setText] = useState<string>();
+export interface FinalSlideInterface {
+  onFinish: () => void;
+  nextSlide: () => void;
+}
+const FinalSlide: React.FC<FinalSlideInterface> = ({ onFinish, nextSlide }) => {
   return (
     <IonSlide>
       <div className="slide-content">
@@ -311,6 +507,7 @@ const FinalSlide: React.FC = () => {
             shape="round"
             color="primary"
             className="continue button-bottom"
+            onClick={onFinish}
           >
             got it!
           </IonButton>

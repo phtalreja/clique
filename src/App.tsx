@@ -44,6 +44,9 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import { settings } from "cluster";
 
+/* Firebase import */
+import Firebase from "./config/Firebase";
+
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
