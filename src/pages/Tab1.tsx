@@ -1,7 +1,8 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonText, IonAvatar, IonLabel, IonItemOptions, IonItemSliding, IonItemOption } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonText, IonAvatar, IonLabel, IonItemOptions, IonItemSliding, IonItemOption, IonButton, IonIcon } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab1.css';
+import { square, chevronForwardOutline } from 'ionicons/icons';
 
 const arr = [
   {
@@ -41,6 +42,9 @@ const Tab1: React.FC = () => {
                     <h2>{elem.name}</h2>
                     <h3>{elem.desc}</h3>
                 </IonLabel>
+                <IonButton color="clear">
+                      <IonIcon icon={chevronForwardOutline} />
+                    </IonButton>
                 </IonItem>
                 <IonItemOptions side="start">
                     <IonItemOption>

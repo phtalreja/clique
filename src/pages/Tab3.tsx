@@ -1,7 +1,8 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonLabel, IonList, IonItem, IonAvatar, IonCol, IonRow } from '@ionic/react';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonLabel, IonList, IonItem, IonAvatar, IonCol, IonRow, IonModal, IonButton, IonIcon } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab3.css';
+import { chevronForwardOutline } from 'ionicons/icons';
 
 const arr = [
   {
@@ -23,7 +24,7 @@ const Tab3: React.FC = () => {
             <IonTitle>settings</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
+        <IonContent className="ion-padding">
     
                   <IonAvatar className="avatar">
                     <img src="https://ca.slack-edge.com/T0171J44GNS-U0187P2F5T4-b1fd59458e4a-512" />
@@ -32,31 +33,43 @@ const Tab3: React.FC = () => {
                       <h2 className="ion-text-center">Hoang</h2>
                   </IonLabel>
         
-          <IonList>
+          <IonList className="ion-padding">
               {arr.map(elem => (
                 <>
                   <IonItem>
                     <IonLabel>
                         My gender is {elem.gender}
                     </IonLabel>
+                    <IonButton color="clear">
+                      <IonIcon icon={chevronForwardOutline} />
+                    </IonButton>
                   </IonItem>
 
                   <IonItem>
                     <IonLabel>
                         I'm looking for a friend that's preferably {elem.friend_gender}
                     </IonLabel>
+                    <IonButton color="clear">
+                      <IonIcon icon={chevronForwardOutline} />
+                    </IonButton>
                   </IonItem>
 
                   <IonItem>
                     <IonLabel>
                         I am interested in {elem.interest}
                     </IonLabel>
+                    <IonButton color="clear">
+                      <IonIcon icon={chevronForwardOutline} />
+                    </IonButton>
                   </IonItem>
 
                   <IonItem>
                     <IonLabel>
                         I'm available {elem.available}
                     </IonLabel>
+                    <IonButton color="clear">
+                      <IonIcon icon={chevronForwardOutline} />
+                    </IonButton>
                   </IonItem>
 
                 </>
@@ -71,4 +84,19 @@ const Tab3: React.FC = () => {
 };
 
 export default Tab3;
+
+export const ModalExample: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  return (
+    <IonContent>
+      <IonLabel>Helloooo</IonLabel>
+      <IonModal isOpen={showModal} cssClass='my-custom-class'>
+        <p>This is modal content</p>
+        <IonButton onClick={() => setShowModal(false)}>Close Modal</IonButton>
+      </IonModal>
+      <IonButton onClick={() => setShowModal(true)}>Show Modal</IonButton>
+    </IonContent>
+  );
+};
 
