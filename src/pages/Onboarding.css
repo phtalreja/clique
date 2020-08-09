@@ -92,7 +92,7 @@ ion-slides {
 
 .slide-content {
   position: absolute;
-  top: 11%;
+  top: 50px;
   width: 90%;
   max-width: 500px;
 }
